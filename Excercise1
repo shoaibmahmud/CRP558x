@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>CRP_558X</title>
+</head>
+<body>
+  <h2>CRP 552 Exercise 2:RESUME</h2>
+  <p><h3> Personal Information</h3> </p>
+  <P><b>Name:</b> Shoaib Mahmud<br>
+     <b>Hometown:</b> Dhaka, Bangladesh<br>
+     <b>Current Address:</b> Ames, IOWA<br>
+     <b>Major:</b> Community and Regional Planning,ISU<br></p>
+  <P><h3> Professional Background</h3><P>
+  <P><b>Current Job :</b>Graduate Research Assistant,ISU<br>
+     <b>Previous Job 1:</b> Urban Planner,BUET,Bangladesh<br>
+     <b>Previous Job 2:</b> Intern, DTCA, Bangladesh<br>
+
+<P><h3> Education</h3><P>
+  <P><b>Masters:</b>Community and Regional Planning,ISU,Pursuing<br>
+     <b>Bachelor:</b> Urban and Regional Planning,BUET,Bangladesh<br>
+     <b>High School:</b> Saint Joesph, Dhaka, Bangladesh<br>
+
+<P><h3> Others</h3><P>
+  <P><b>Hobby:</b>Stamp Collection,Playing Chess<br>
+     <b>Software Skills:</b> SPSS , Auto-CAD, Arc-GIS,Microsoft Excel<br>
+     <b>Interest:</b>Travelling<br>
+
+
+</body>
+</html>
