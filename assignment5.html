@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by shoaibmahmud (http://jsbin.com/kijifa/7/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+<style id="jsbin-css">
+ p {text-align: center; color: black}
+ h3 {text-align: center; color: black}
+ h4 {text-align: center; color: black}
+ body {background-color: white}
+   
+        header, footer {
+    padding: 1em;
+    color: white;
+    background-color: black;
+    clear: left;
+            text-align: center;}
+
+</style>
+</head>
+<body>
+  <header>
+   <h1>CRP 558X </h1>
+   <h2> Javascript Playground</h2>
+</header>
+  <p>
+ <h3>Example of Using Text Input<h3>
+   <h4> What is your name?</h4>
+ <p>First name: <input type="text" id="firstName" value="SHOAIB"><br>
+Last name: <input type="text" id="lastName" value="MAHMUD"><br><br>
+   
+<button onclick="myFunction()">Click</button><br>
+
+<p id="show"> </p>
+   
+ <h3>Example of Using Check Box<h3>
+   <h4> You are in the group of ____?</h4>
+   
+  <p> <input type="checkbox" id="group1" value="gryffindor">gryffindor<br>
+<input type="checkbox" id="group2" value="slytherin">slytherin<br>
+ <input type="checkbox" id="group3" value="hufflepuffl">hufflepuffl<br>
+    <input type="checkbox" id="group4" value="ravenclaw">ravenclaw<br><br> 
+
+<button type="button" onclick="harry()">Display</button> </P>
+
+<p id="now"></p>
+   
+   
+  <h3> Example of Using Radio Button</h3>
+  <h4>What is your favorite country?(Select only one country)</h4>
+   <P>
+<input type="radio" id="country1" value="Bangladesh">Bangladesh<br>
+<input type="radio" id="country2" value="United States">United States<br>
+ <input type="radio" id="country3" value="Nepal">Nepal<br>
+<input type="radio" id="country4" value="Canada">  Canada <br><br>
+
+<button type="button" onclick="favoritecountries()">Display</button>
+
+<p id="display"></p>
+</P>
+<p><h3>The Route from My Home to My Heart (My Undergrad University)</h3></p>
+<p>
+<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/directions?origin=place_id:ChIJi87qlHDHVTcRt2ybI9nC2Bw&destination=place_id:ChIJ6ar8LN24VTcR1CQ1oGJFIV8&key=AIzaSyAjzajYmaTAvzsTCLCAM57nKuUBAVIk9MQ" allowfullscreen></iframe>
+</P>
+   </P>
+<footer> Shoaib Mahmud, Department of Community and Regional Planning, ISU</footer>
+  
+<script id="jsbin-javascript">
+function myFunction() {
+  {var x=document.getElementById("firstName").value;
+var y=document.getElementById("lastName").value;
+  }
+document.getElementById("show").innerHTML = x+" " +y;
+}
+
+function harry() {
+    if (document.getElementById('group1').checked) {
+        country= document.getElementById('group1').value;
+    }
+  else if(document.getElementById('group2').checked) {
+        country= document.getElementById('group2').value;
+    }
+  else if (document.getElementById('group3').checked) {
+        country= document.getElementById('group3').value;
+    }
+  else if (document.getElementById('group4').checked) {
+        country= document.getElementById('group4').value;
+    }
+ document.getElementById("now").innerHTML = country;
+}
+
+function favoritecountries() {
+    if (document.getElementById('country1').checked) {
+        country= document.getElementById('country1').value;
+    }
+  else if(document.getElementById('country2').checked) {
+        country= document.getElementById('country2').value;
+    }
+  else if (document.getElementById('country3').checked) {
+        country= document.getElementById('country3').value;
+    }
+  else if (document.getElementById('country4').checked) {
+        country= document.getElementById('country4').value;
+    }
+ document.getElementById("display").innerHTML = country;
+}
+</script>
+</body>
+</html>
