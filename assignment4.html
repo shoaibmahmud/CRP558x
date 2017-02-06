@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Assignment 4:JavaScript</title>
+    <style>
+
+        body {background-color: white}
+   
+        header, footer {
+    padding: 1em;
+    color: white;
+    background-color: black;
+    clear: left;
+            text-align: center;}
+        
+        p {text-align: center; color: black}
+        h3 {text-align: center; color: black}
+        
+        
+    </style>
+</head>
+<body>
+    
+<header>
+   <h1>CRP 558X </h1>
+   <h2> Javascript Playground</h2>
+</header>
+    <!---exaplme of using input menthod---->
+    
+    <p><class="clearfloat"> <h3>Calculation of Number</h3> </class></p>
+        
+   <p text-align="center">
+    Please, Write the First Number First Number <input  id="input1"  type="text" size="6"><br>
+    Please, Pick The Operator 
+       <select id="mathsigns" >
+        <option value="+"> + </option>
+        <option value="-"> - </option>
+        <option value="*"> *</option>
+        <option value="/"> / </option>
+    </select>
+    <br>
+    Please, Write the First Number Second Number
+    <input  id="input2" type="text"  size="6">
+    <br>
+<button onclick="calculate()"> Result</button> = <span id="theResult"></span>
+
+    </p> 
+    
+    <!---exaplme of using input menthod---->
+    <p> <h3>My pet's' name in reverse alphabetical order</h3> </p>
+    
+       <p> <button onclick="petname()"> My Pet</button> </p>
+    
+    <p id="Mypet"> </p>
+
+    
+    <!---exaplme of using array menthod---->
+    
+    
+    
+    <!---exaplme of using loop menthod---->
+  
+  <h3>Loop : Number 1 to 5 </h3>
+  
+  <p id="shoaib"></p>
+    
+    <!---exaplme of using loop menthod---->
+    <!-----PLease select a day ---->
+
+  <p text-align="center"> <h3> Please select a Day </h3> </p>
+    
+   <p> <select id="day" >
+        <option value="1"> Saturday </option>
+        <option value="2"> Sunday </option>
+        <option value="3"> Monday</option>
+        <option value="4"> Tuesday </option>
+        <option value="5"> Wednesday </option>
+        <option value="6"> Thursday</option>
+        <option value="7"> Friday </option>
+    </select>
+    </p>
+    
+    <p>This day is <button onclick="shoaib()"> Click to Find </button> = <span id="Hurrah"></span> </p>
+    <br>
+
+   <!-----PLease select a day ---->
+
+<footer> Shoaib Mahmud, Department of Community and Regional Planning, ISU</footer>
+
+<script> 
+    
+    // <!---exaplme of using input menthod---->
+  {  
+    function calculate() 
+    {
+	var input1 = parseInt(document.getElementById("input1").value);
+	var operator = document.getElementById("mathsigns").value;
+	var input2 = parseInt(document.getElementById("input2").value);
+		
+	switch(operator) // The use of switch operator 
+    {
+        case '+':
+            result=input1+input2;
+            break;
+		case '-':
+			result = input1 - input2;
+			break;
+		case '*':
+			result = input1 * input2;
+			break;
+		case '/':
+			 result = input1 / input2;
+			 break;
+		default:
+			result = " Error";
+	}
+	document.getElementById("theResult").innerHTML=result;
+}
+  }
+</script>
+    
+<script>
+   // <!---exaplme of using input menthod---->
+   // <!---exaplme of using array menthod---->
+     
+    var pets=["Dog","Cat","Water_dragon"];
+    document.getElementById("Mypet").innerHTML=pets;
+    
+    function petname(){
+        pets.sort();
+        pets.reverse();
+        document.getElementById("Mypet").innerHTML=pets;
+        }
+    
+   // <!---exaplme of using array menthod---->
+
+  // <!---exaplme of using loop menthod---->
+    
+var text = "";
+var i;
+for (i = 0; i < 5; i++) 
+{
+    text += "The number is " + i + "<br>";
+}
+document.getElementById("shoaib").innerHTML = text;
+    
+</script>
+<script>
+   {  
+    function shoaib() 
+    {
+	
+	var  text=document.getElementById("day").value;
+		
+	switch(text) // The use of switch operator 
+    {
+        case '1':
+            text="This is Holiday";
+            break;
+		case '2':
+			text = "Holiday";
+			break;
+		case '3':
+			text = "Weekday";
+			break;
+		case '4':
+			 text ="Weekday";
+			 break;
+
+         case '5':
+			text = "Weekday";
+			break;
+		case '6':
+			text = "Weekday";
+			break;
+		case '7':
+			 text = "Weekday";
+			 break;
+		default:
+			text = "Error";
+	}
+	document.getElementById("Hurrah").innerHTML=text;
+}
+  }
+</script>
+    
+</body>
+</html>
+
+
+
