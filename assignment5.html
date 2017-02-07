@@ -109,12 +109,12 @@ function harry() {
         country3="";
     }
   else if (document.getElementById('group4').checked == true) {
-        country= document.getElementById('group4').value;
-    }
-  else if (document.getElementById('group4').checked == false) {
         country4= document.getElementById('group4').value;
     }
- document.getElementById("now").innerHTML = country1+" "+ country2+ " " + country3 + " "+country4  ;
+  else if (document.getElementById('group4').checked == false) {
+        country4=" ";
+    }
+ document.getElementById("now").innerHTML = country1+" "+ country2+ " " + country3 + " "+country4 ;
 }
 
 function favoritecountries() {
