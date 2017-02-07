@@ -85,20 +85,36 @@ var y=document.getElementById("lastName").value;
 document.getElementById("show").innerHTML = x+" " +y;
 }
 
+var country1;
+var country2;
+var country3;
+var country4;
 function harry() {
-    if (document.getElementById('group1').checked) {
-        country= document.getElementById('group1').value;
+    if (document.getElementById('group1').checked == true) {
+        country1= document.getElementById('group1').value;
     }
-  else if(document.getElementById('group2').checked) {
-        country= document.getElementById('group2').value;
+  else if (document.getElementById('group1').checked == false) {
+        country1="";
     }
-  else if (document.getElementById('group3').checked) {
-        country= document.getElementById('group3').value;
+  else if(document.getElementById('group2').checked == true) {
+        country2= document.getElementById('group2').value;
     }
-  else if (document.getElementById('group4').checked) {
+   else if(document.getElementById('group2').checked == false) {
+        country2="";
+    }
+  else if (document.getElementById('group3').checked == true) {
+        country3= document.getElementById('group3').value;
+    }
+  else if (document.getElementById('group3').checked == false) {
+        country3="";
+    }
+  else if (document.getElementById('group4').checked == true) {
         country= document.getElementById('group4').value;
     }
- document.getElementById("now").innerHTML = country;
+  else if (document.getElementById('group4').checked == false) {
+        country4= document.getElementById('group4').value;
+    }
+ document.getElementById("now").innerHTML = country1+" "+ country2+ " " + country3 + " "+country4  ;
 }
 
 function favoritecountries() {
