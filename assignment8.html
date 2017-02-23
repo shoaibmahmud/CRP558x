@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by anonymous (http://jsbin.com/jefiqag/3/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" /> <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+<style id="jsbin-css">
+#map {
+  
+     position:relative;
+     width: 1000px;
+     height: 400px;
+     background-color: red;
+     
+}
+
+#container {
+	background-color: white;
+	width: 1000px;
+	margin-right: auto;
+	margin-left: auto;
+   border-style: solid;
+   border-width: 5px;
+}
+
+#header, #footer {
+	clear: both;
+	padding: 10px;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+</style>
+</head>
+<body>
+<div id="container">
+   <div id = "header">
+    <h2>CRP 558x  </h2>
+    <h3> Leaflet Map </h3>
+   </div>
+  
+     <div id='map'></div>
+
+  <div id = "footer">
+    Shoaib Mahmud, Department of Community and     Regional Planning, ISU
+  </div>
+</div>
+<script id="jsbin-javascript">
+var map = L.map('map').setView([42.0, -93.634], 11.4);
+
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+// markers
+
+L.marker([42.028563, -93.6532138888]).addTo(map)
+   .bindPopup("College of Design")
+   .openPopup();
+
+L.marker([42.027961, -93.648881], {opacity: 0.4}).addTo(map)
+   .bindPopup("Parks Library")
+   .openPopup();
+
+
+var extramarker = L.marker([42.0242306, -93.6465306], {draggable: true}).addTo(map)
+
+extramarker.bindPopup("Memorial Union").openPopup();
+
+// Circles
+var circle1 = L.circle([42.0307250, -93.6605944], 100, {color: 'green', fill: true,
+                                        weight: 1.5}).addTo(map)
+
+circle1.bindPopup("Lee Park").openPopup();
+
+var circle12 = L.circle([42.0087556, -93.6478611], 100, {color: 'green', fill: true,
+                                        weight: 1.5}).addTo(map)
+
+circle12.bindPopup("Ames Park").openPopup();
+
+//circlemarker
+//Lake laverne
+var circlemarker1= L.circle([42.0237722, -93.647913], {
+    color: 'blue',
+    fillColor: '#blue',
+    fillOpacity: 0.3,
+    radius: 150
+}).addTo(map);
+
+circlemarker1.bindPopup("Lake laverne").openPopup()
+
+//Crystal Lake
+var circlemarker3= L.circle([42.0643028, -93.6462833], {
+    color: 'blue',
+    fillColor: '#blue',
+    fillOpacity: 0.3,
+    radius: 100
+}).addTo(map);
+
+circlemarker3.bindPopup("Crystal Lake").openPopup()
+
+
+//Ada Hayden Lake
+var circlemarker2= L.circle([42.0643028, -93.6280944], {
+    color: 'blue',
+    fillColor: '#blue',
+    fillOpacity: 0.3,
+    radius: 400
+}).addTo(map);
+
+circlemarker2.bindPopup("Ada Hayden Lake").openPopup()
+
+
+
+</script>
+</body>
+</html>
