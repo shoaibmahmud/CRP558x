@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by shoaibmahmud (http://jsbin.com/koliza/15/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" /> <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+  <title>JS Bin</title>
+<style id="jsbin-css">
+#map {
+  
+     position:relative;
+     width: 1000px;
+     height: 400px;
+    /* background-color: red;*/
+
+}
+#container {
+	background-color: white;
+	width: 1000px;
+	margin-right: auto;
+	margin-left: auto;
+   border-style: solid;
+   border-width: 5px;
+}
+#header, #footer {
+	clear: both;
+	padding: 10px;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+.leaflet-div-icon {
+  background-color: blue;
+  text-align:center;
+}
+
+
+
+
+</style>
+</head>
+<body>
+
+<div id="container">
+   <div id = "header">
+    <h2>CRP 558x  </h2>
+    <h3> Leaflet Custom Icons, Popups and Marker Rendering.</h3>
+   </div>
+
+     <div id='map'></div>
+
+  <div id = "footer">
+    Shoaib Mahmud, Department of Community and     Regional Planning, ISU
+  </div>
+</div>
+<script id="jsbin-javascript">
+var map = L.map('map').setView([42.0, -93.634], 14.5);
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+
+//Normal marker
+var marker1 = L.marker([42.028563, -93.6532138888], {
+	draggable: true,
+	title: "College of Design",
+	opacity: 1
+}).addTo(map).bindPopup("College of design").openPopup();
+
+
+
+marker1.bindPopup("Crp 558<br><strong>Web mapping</strong><br>popup", {
+  maxWidth: 200,
+  minWidth: 170,
+  maxHeight: 40,
+  autoPan: true, 
+  keepInView: true,
+  closeButton: true, 
+  autoPanPadding: [25, 5],
+  //offset: [0, 0]
+});
+
+marker1.openPopup();
+
+//custom marker
+
+var greenIcon = L.icon({
+    iconUrl: 'https://shoaibmahmud.github.io/CRP558x/leaf-green.png',
+    shadowUrl: 'https://shoaibmahmud.github.io/CRP558x/leaf-shadow.png',
+
+    iconSize:     [38, 95],
+    shadowSize:   [50, 64],
+    iconAnchor:   [22, 94],
+    shadowAnchor: [4, 62],
+    popupAnchor:  [-3, -76]
+});
+
+
+var marker2 = L.marker([42.027961,  -93.648881], {
+  icon: greenIcon,
+	draggable: true,
+	title: "parks library",
+	opacity: 1
+}).addTo(map).bindPopup("parks library").openPopup();
+
+//div marker
+
+var myDivIcon5=L.divIcon({
+   iconSize :new L.point(30,20),
+   html : 'Leid',
+   draggable: true,
+   className : 'leaflet-div-icon'
+  });
+
+var marker5 = L.marker([42.027050 ,-93.6379833],{icon: myDivIcon5,}).addTo(map).bindPopup("Leid Recreation").openPopup();
+
+
+
+// 10 circle marker
+var isuBuildings = [
+                ["15",42.022050,-93.6436583,"Residence halls","(Buchanan Hall)"],//Buchanan Hall
+                ["20",42.0250778,-93.6403694,"Residence halls","(Richardson Court)"],//Richardson Court
+                ["30",42.0267694,-93.6372167, "Recreation Athletic Facility","(Lied)"],//Lied Recreation Athletic Facility, Beach Road, Ames, IA
+                ["25",42.0246750, -93.6538028,"Recreation Athletic Facility","(State Gymnasium)"],//State Gymnasium
+                ["20",42.0240722,-93.6503250,"Residence halls","(Union Drive)"],//Union Drive
+                ["10",42.0283917,-93.6508972,"Academic Building","(coover hall)"],//coover hall
+                ["25",42.028586,-93.6465278,"Academic Building","(Mckay Hall)"],//Mckay Hall
+                ["15",42.0259444,-93.6529056,"Recreation Athletic Facility","(Beyer Hall)"],//Beyer Hall
+                ["5",42.0265889,-93.6441556,"Academic Building","(Ross Hall)"],//Ross Hall
+                ["20",42.0239333,-93.6516528,"Residence halls","(Wallace and Wilson Halls)"],//Wallace and Wilson Halls
+            ];
+    
+            function getColor(d) {
+                return  d == 'Residence halls' ? '#0fc90b' :
+                        d == 'Academic Building' ? "#0a21c9" :
+                        d == 'Recreation Athletic Facility' ? "#5c5f02" :
+                                   "#FFFFFF" ;
+            }
+  
+            for (var i = 0; i < isuBuildings.length; i++) {
+            marker = new L.circleMarker([isuBuildings[i][1],isuBuildings[i][2]], {
+                radius: isuBuildings[i][0]/2,
+                fillColor: getColor(isuBuildings[i][3]), 
+                color: "black",
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.5    
+            })
+                                                 
+            .bindPopup("Students' most preffered place: "+isuBuildings[i][3]+isuBuildings[i][4]).addTo(map);
+            };
+
+
+</script>
+</body>
+</html>
