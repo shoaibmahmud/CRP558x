@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by shoaibmahmud (http://jsbin.com/bomipen/8/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" /> <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+  <title>JS Bin</title>
+  
+<style id="jsbin-css">
+html, body, { height: 100%; margin: 0; padding: 0;}
+#map {
+  
+     position:relative;
+     width: 1000px;
+     height: 400px;
+    /* background-color: red;*/
+
+}
+#container {
+	background-color: white;
+	width: 1000px;
+	margin-right: auto;
+	margin-left: auto;
+   border-style: solid;
+   border-width: 5px;
+}
+ #gamla {
+	clear: both;
+	padding: 10px;
+	background-color: red;
+	color: black;
+	text-align: center;
+}
+
+#header, #footer {
+	clear: both;
+	padding: 10px;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+.leaflet-div-icon {
+  background-color: blue;
+  text-align:center;
+}
+
+</style>
+</head>
+<body>
+<div id="container">
+   <div id = "header">
+    <h2>CRP 558x  </h2>
+    <h3> Leaflet Events Playground.</h3>
+   </div>
+<div id="gamla">
+
+<button id='dhaka' type="button"> BUET,Dhaka</button>
+<button id='Ames' type="button"> Ames</button> 
+<button id='randomMarker' type="button"> 10 random markers</button>
+<button id='getzoom' type="button"> Get zoom</button>  The zoom is <span id='theZoom'></span >
+ <br>
+</div>
+     <div id='map'></div>
+
+  <div id = "footer">
+    Shoaib Mahmud, Department of Community and     Regional Planning, ISU
+  </div>
+</div>
+
+
+<script id="jsbin-javascript">
+
+var marker;
+
+var map = L.map('map').setView([23.72730000,90.39106666], 14);
+
+
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+
+
+
+
+function onMapClick (e){
+var marker=L.marker(e.latlng,{
+ draggable: true,
+ title : "ISU",
+ alt : "Ames,Iowa",
+ riseOnHover: true
+}).addTo(map).bindPopup(e.latlng.toString()).openPopup();
+
+marker.on("dragend", function (ev){
+var chagedPos=ev.target.getLatLng();
+this.bindPopup(chagedPos.toString()).openPopup();
+
+});
+}
+
+map.on('click',onMapClick);
+
+
+
+$(document).ready(function(){
+$('#Ames').click(function() {
+map.setView([42.034722,-93.62],10 );
+});
+
+
+$('#dhaka').click(function() {
+map.setView([23.72730000,90.39106666],13 );
+var marker2 = L.marker([23.72730000,90.39106666]).addTo(map)
+        marker2.bindPopup('<a href="http://www.buet.ac.bd/" target="_blank">My University:Bangldesh University of Engineering and Technology(BUET) </a>').openPopup();
+
+  var marker3 = L.marker([23.749,90.394], {
+	draggable: true,
+	opacity:1
+}).addTo(map).bindPopup('<a href="https://en.wikipedia.org/wiki/Dhaka"> DHAKA CITY </a>').openPopup();
+
+var marker3 = L.marker([23.739,90.354], {
+	draggable: true,
+	opacity: 0
+}).addTo(map).bindPopup("By CLickikng the links on the beside markers you can be able know about my university and my city ").openPopup();
+});
+});
+
+$('#getzoom').click(function() {
+
+x=map.getZoom();
+$('#theZoom').html(x);
+});
+
+
+$('#randomMarker').click(function() {
+
+var markers=L.featureGroup();
+var maxY=42.5;
+var minY=42;
+var maxX=-93.5;
+var minX=-93.1;
+var markerArray=[];
+var marker=L.marker();
+
+for (var i=0 ;i<10 ; i++){
+      y=Math.random()*(maxY-minY)+minY;
+      x=Math.random()*(maxX-minX)+minX ;
+      markerArray.push(L.marker([y,x]));
+     }
+
+var group =L.featureGroup(markerArray).addTo(map);
+map.fitBounds(group.getBounds());
+
+});
+
+
+
+
+</script>
+</body>
+</html>
