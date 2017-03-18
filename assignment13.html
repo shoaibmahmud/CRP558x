@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by shoaibmahmud (http://jsbin.com/libanag/2/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+
+  <title>Shoaib Mahmud: Assignment 13</title>
+  <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" /> <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+  <script src="https://shoaibmahmud.github.io/CRP558x/iowaCounties.json"></script>
+<style id="jsbin-css">
+#map {
+
+     position:relative;
+     width: 1000px;
+     height: 400px;
+
+}
+#container {
+	background-color: white;
+	width: 1000px;
+	margin-right: auto;
+	margin-left: auto;
+   border-style: solid;
+   border-width: 5px;
+}
+#header, #footer {
+	clear: both;
+	padding: 10px;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+.legend {
+    line-height: 10px;
+    color: #555;
+    }
+    .legend i {
+        width: 18px;
+        height: 19px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.8;
+    }
+    .info {
+        padding: 6px 8px;
+        font: 10px/20px Arial, Helvetica, sans-serif;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 7px;
+
+    }
+
+</style>
+</head>
+<body>
+<div id="container">
+   <div id = "header">
+    <h2>CRP 558x  </h2>
+    <h3> Assignment 13:Leaflet - Managing basemaps and overlays with layer control</h3>
+   </div>
+
+     <div id='map'></div>
+
+  <div id = "footer">
+    Shoaib Mahmud, Department of Community and     Regional Planning, ISU
+  </div>
+</div>
+<script id="jsbin-javascript">
+$(document).ready(function(){
+
+
+// Base Map
+var OpenTopoMap = L.tileLayer('http://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	maxZoom: 18,
+	attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+});
+
+var OpenStreetMap_Mapnik = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+
+var Hydda_Base = L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/base/{z}/{x}/{y}.png', {
+	maxZoom: 18,
+	attribution: 'Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+
+//Map
+
+var map = L.map('map', {
+  center: [41.837, -93.615],
+  zoom: 6.4,
+  layers: [Hydda_Base]
+});
+//Layer Control for basemap
+var baseMaps = {
+  "TopgraphyMap": OpenTopoMap,
+	"OpenStreetMap": OpenStreetMap_Mapnik,
+  "SeaMap":Hydda_Base,
+};
+//set color of marker
+function getColor(d) {
+  return d <= '5000' ? '#02fc2c' :
+    d <= '10000' ? "#02c922" :
+   d <= '15000' ? "#019318" :
+    d <= '20000' ? "#016811" :
+    d <= '30000' ? "#003f09" :
+  d <= '40000' ? "#002605" :
+  d <= '50000' ? "#001e03" :
+  d <= '100000' ? "#0e230e" :
+  d <= '500000' ? "#000a00" :
+    "#FFFFFF";
+}
+
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.POP2010),
+        weight: 1,
+        opacity: 1,
+        color: 'white',
+        dashArray: '1',
+        fillOpacity: 0.6
+    };
+}
+
+//geoJson
+L.geoJson(locations, {
+  style: style,
+  onEachFeature: function (feature, layer) {
+        htmlText = "<strong>" + feature.properties.County_Nam+ "</strong><br>Population 2010: "  + feature.properties.POP2010 + "";
+        layer.bindPopup(htmlText);
+    layer.bindTooltip(feature.properties.NAME);
+    }
+}).addTo(map);
+
+//Create Legend
+var legend = L.control({
+  position: 'bottomleft'
+});
+
+legend.onAdd = function(map) {
+
+  var div = L.DomUtil.create('div', 'info legend'),
+    pop_size = [10000, 30000, 500000],
+    labels = ['Rural Area', 'Moderately Populated Area', 'Densely Populated Area'];
+
+
+   div.innerHTML += "<strong>County Population</strong><br>";
+
+  for (var i = 0; i < pop_size.length; i++) {
+    div.innerHTML +=
+      '<i style="background:' + getColor(pop_size[i] ) + ' "></i> ' +
+       labels[i]+'<br>';
+  }
+
+  return div;
+};
+legend.addTo(map);
+//Universities
+var iowastateuniversity= L.marker([42.03, -93.61]).bindPopup('Iowa State University'),
+        uniIowa    = L.marker([41.66, -91.534]).bindPopup('University of Iowa '),
+       drake    = L.marker([41.5, -93.543056]).bindPopup('Drake University');
+
+var university = L.layerGroup([iowastateuniversity, uniIowa, drake]);
+//landmarks
+var amanaColonies = L.marker([41.7, -91.9]).bindPopup('Amana Colonies,Iowa'),
+        dubuqueCountyJail   = L.marker([42.5, -90.705833]).bindPopup('Dubuque County Jail'),
+        sergeantFloydMonument    = L.marker([42.526667, -96.304167]).bindPopup('Sergeant Floyd Monument');
+//Layer controls
+var landmarks = L.layerGroup([amanaColonies, dubuqueCountyJail, sergeantFloydMonument]);
+var overlayMaps = {
+  "Universities in Iowa.": university,
+  "Landmarks of Iowa.": landmarks
+};
+
+L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+});
+
+</script>
+</body>
+</html>
