@@ -7,17 +7,7 @@
 <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
 
   <meta charset="utf-8">
-<!--
-Created using JS Bin
-http://jsbin.com
-
-Copyright (c) 2017 by shoaibmahmud (http://jsbin.com/fupahi/8/edit)
-
-Released under the MIT license: http://jsbin.mit-license.org
--->
-<meta name="robots" content="noindex">
   <title>Assignment 14</title>
-
 <style id="jsbin-css">
 #map {
 
@@ -62,14 +52,13 @@ Released under the MIT license: http://jsbin.mit-license.org
         border-radius: 7px;
 
     }
-
 </style>
 </head>
 <body>
 <div id="container">
    <div id = "header">
     <h2>CRP 558x  </h2>
-    <h3> Assignment 14: Creating a weather and earthquake map using JSON/GeoJSON data from an API</h3>
+    <h3> Assignment 14: Creating a weather and earthquake map using JSON/GeoJSON data from an APIl</h3>
    </div>
 <div id="Cow">
   <a><strong>Enter the Name of a City</strong></a> <br>
@@ -86,7 +75,7 @@ Released under the MIT license: http://jsbin.mit-license.org
     Shoaib Mahmud, Department of Community and     Regional Planning, ISU
   </div>
 </div>
-<script>
+<script id="jsbin-javascript">
 var data;
 console.clear();
 
@@ -180,21 +169,146 @@ function getWeather(callback) {
   }
 });
 </script>
-<script src="http://static.jsbin.com/js/render/edit.js?3.35.5"></script>
-<script>jsbinShowEdit && jsbinShowEdit({"static":"http://static.jsbin.com","root":"http://jsbin.com"});</script>
-<script src="http://static.jsbin.com/js/vendor/eventsource.js?3.35.5"></script>
-<script src="http://static.jsbin.com/js/spike.js?3.35.5"></script>
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-1656750-34', 'jsbin.com');
-ga('require', 'linkid', 'linkid.js');
-ga('require', 'displayfeatures');
-ga('send', 'pageview');
 
+
+<script id="jsbin-source-css" type="text/css">#map {
+
+     position:relative;
+     width: 1000px;
+     height: 400px;
+
+}
+#container, #cow {
+	background-color: #c2a5cf;
+  text-align: center;
+	width: 1000px;
+	margin-right: auto;
+	margin-left: auto;
+   border-style: solid;
+   border-width: 5px;
+}
+#header, #footer {
+	clear: both;
+	padding: 10px;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+.legend {
+    line-height: 20px;
+    color: #555;
+    }
+    .legend i {
+        width: 25px;
+        height: 60px;
+        float: left;
+        margin-right: 4px;
+        opacity: 1;
+    }
+    .info {
+        padding: 6px 10px;
+        font: 15px/20px Arial, Helvetica, sans-serif;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 7px;
+
+    }
 </script>
 
-</body>
+<script id="jsbin-source-javascript" type="text/javascript">var data;
+console.clear();
+
+var marker = ' ';
+
+//Base Layers
+
+var osmLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+  maxZoom: 20
+});
+
+
+//Create the Map
+var myMap = L.map('map', {
+  center: new L.LatLng(41.87811, 17.62979),
+  zoom: 2,
+  layers: [osmLayer]
+});
+
+
+
+$(document).ready(function() {
+  var city = '';
+  $("#load").click(function() {
+    city = $("#city").val();
+
+    // get data:
+    getWeather(function(data) {
+      console.log('weather data received for ' + data.name);
+      displayData = "<strong>" + "Current Weather for " + data.name + ":</strong> " + data.weather[0].description + ",&nbsp" + " Temperature (F): " + data.main.temp + ",&nbsp "+ "Pressure:" + data.main.pressure + ",&nbsp " + "Humidity:" + data.main.humidity+",&nbsp"+"&nbsp" ;
+      displayData = displayData + "Longitude: " + data.coord.lon +",&nbsp "+ "Latitude: " +  data.coord.lat + "&nbsp ";
+      $("#weather").html(displayData);
+      displayData = "";
+
+     
+      function getColor(d) {
+  return d > 60 ? '#d73027' :
+   d > 50 ? '#fc8d59' :
+    d > 40 ? '#fee08b' :
+    d > 30? '#d9ef8b' : 
+    d > 20 ? '#91cf60' :
+    '#1a9850';
+}
+
+
+      marker = L.circleMarker([data.coord.lat, data.coord.lon], {
+        draggable: false,
+        fillColor: getColor(data.main.temp),
+        radius: data.main.temp/3,
+        title: data.name,
+        fillOpacity: 0.6,
+        opacity: 0,
+      }).addTo(myMap).bindPopup("Current Weather: " + data.weather[0].description + "<br>Temp: " + data.main.temp + "F");
+
+var legend = L.control({
+  position: 'bottomright'
+});
+
+legend.onAdd = function(myMap) {
+
+  var div = L.DomUtil.create('div', 'info legend'),
+    temp = [20,30,40,50,59 ],
+    labels = ['20°F (low)','30°F '  ,'40°F(Moderate)','50°F' ,'60°F(High)'];
+
+
+   div.innerHTML += "<h3>Temperature</h3>";
+
+  for (var i = 0; i < temp.length; i++) {
+    div.innerHTML +=
+      '<i style="background:' + getColor(temp[i]) + ' "></i> ' +
+       labels[i]+'<br>'+'<br>'+'<br>';
+  }
+
+  return div;
+};
+legend.addTo(myMap);
+
+    });
+  });
+function getWeather(callback) {
+    console.log(city);
+
+    var url =
+      'http://api.openweathermap.org/data/2.5/weather?q=' + city+ '&mode=json&units=imperial&appid=decf9ef4753a19429d3573c88f8c8776';
+    $.ajax({
+      dataType: "jsonp",
+      url: url,
+      success: callback
+    });
+  }
+});
+
+
+</script></body>
 </html>
