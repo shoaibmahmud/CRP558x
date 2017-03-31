@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by shoaibmahmud (http://jsbin.com/jipajil/2/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+
+  <head>
+    <meta name="description" content="LA 458/558 20a Leaflet Marker Cluster Plugin">
+    <title>Leaflet debug page</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.css" />
+
+    <link rel="stylesheet" href="https://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.Default.css" />
+
+    <script src="https://leaflet.github.io/Leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
+
+<script	 src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js">
+    </script>
+
+    <script src="https://shoaibmahmud.github.io/CRP558x/londonDatsets.js"></script>
+
+
+
+  <style id="jsbin-css">
+#map {
+
+     position:relative;
+     width: 1000px;
+     height: 600px;
+
+}
+#container {
+	background-color: white;
+	width: 1000px;
+	margin-right: auto;
+	margin-left: auto;
+   border-style: solid;
+   border-width: 5px;
+}
+#header, #footer {
+	clear: both;
+	padding: 10px;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+</style>
+</head>
+
+  <body>
+
+   <div id="container">
+   <div id = "header">
+    <h2>CRP 558x  </h2>
+    <h3> Assignment 16: Leaflet cluster and heat map plugins(Heat_Map_London_Abridge)</h3>
+   </div>
+
+     <div id='map'></div>
+
+  <div id = "footer">
+    Shoaib Mahmud, Department of Community and     Regional Planning, ISU
+  </div>
+</div>
+
+</html>
+
+
+<script id="jsbin-javascript">
+console.clear();
+
+
+var myArray = [];
+var max = 100;
+var min = 1;
+var map;
+
+//Base Layers
+var OSM = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 18
+});
+
+var Hydda_Base = L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/base/{z}/{x}/{y}.png', {
+	maxZoom: 18,
+	attribution: 'Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+
+
+//create the map
+map = L.map('map', {
+    		center: new L.LatLng(51.657, 0.1200),
+    		zoom: 15,
+    		layers: [OSM]
+		});
+
+
+
+//create random points around the college of design
+
+for (i = 0; i < 100; i++) { 
+	x = 0.1200 + (Math.random() / 100);
+	y = 51.65 + (Math.random() / 100);
+	z = Math.floor(Math.random() * (max - min + 1)) + min;
+	myArray.push([y, x, z]);
+
+}
+console.log(myArray);
+
+
+
+
+var heatMap1 = L.heatLayer(myArray, {
+	minOpacity: 0.1,
+	maxZoom: 19,
+	max: 1.0,
+	radius: 20,
+	blur: 15,
+	gradient: {
+			0.2: 'yellow',
+			0.65: 'lime',
+			1: 'red'
+	}
+}).addTo(map);
+
+var markers = L.markerClusterGroup();
+		var singleMarkers = L.layerGroup([]);
+
+		for (var i = 0; i < addressPoints.length; i++) {
+		  var a = addressPoints[i];
+		  var title = a[2];
+		  var marker = L.marker(new L.LatLng(a[0], a[1]), {
+		    title: title
+		  });
+		  marker.bindPopup(title);
+		  markers.addLayer(marker);
+		  singleMarkers.addLayer(marker);
+		}
+
+		map.addLayer(singleMarkers);
+
+
+
+//layer control
+var baseMaps = {
+	"OpenStreetMap": OSM,
+  "SeaMap":Hydda_Base,
+
+};
+
+var overlayMaps = {
+   "Single markers": singleMarkers,
+		  "Cluster": markers,
+
+	"Heat Map1": heatMap1,
+};
+
+L.control.layers(baseMaps, overlayMaps).addTo(map);
+</script>
