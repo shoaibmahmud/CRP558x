@@ -1,0 +1,767 @@
+
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by shoaibmahmud (http://jsbin.com/xegugit/22/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Mini Project Final</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" /> 
+
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+	<script src="https://indicator.extension.iastate.edu/classes/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"></script>
+<style id="jsbin-css">
+
+#map {
+
+     height: 800px;
+     margin-left: 360px;
+     border-left: 1px solid gray;
+     padding: 1em;
+     overflow: hidden;
+
+
+}
+#leftsidecontainer1 {
+   background-color: #efedf5;
+  color: white;
+   margin-right: auto;
+	margin-left: auto;
+    width: 330px;
+    height: 420px;
+}
+#leftsidecontainer2 {
+   background-color: #efedf5;
+  color: white;
+   margin-right: auto;
+	margin-left: auto;
+    width: 330px;
+    height: 300px;
+}
+#head1,#head2 {
+   background-color:#756bb1;
+    color: white;
+
+    margin-right: auto;
+	  margin-left: auto;
+    width: 330px;
+    height: 45px;
+}
+#container {
+	background-color:#a6bddb;
+  text-align: center;
+  height : auto;
+	width: 1530px;
+	margin-right: auto;
+	margin-left: auto;
+   border-style: solid;
+   border-width: 5px;
+}
+#header, #footer {
+	clear: both;
+	padding: 10px;
+	background-color: #2b8cbe;
+	color: white;
+	text-align: center;
+}
+.text1 {
+  color: green;
+   font-weight: bold;
+  padding: 10px;
+   font-family: "Times New Roman";
+   font-style: italic;
+}
+#leftsidecontainer {
+    float: left;
+    max-width: 300px;
+    margin: 0;
+    padding: 1em;
+  	background-color: #a6bddb
+      ;
+}
+.legend {
+    line-height: 30px;
+    color: #555;
+    }
+    .legend i {
+        width: 25px;
+        height:40px;
+        float: left;
+        margin-right: 4px;
+        opacity: 1;
+    }
+    .info {
+        padding: 30px 30px;
+        font: 15px/20px Arial, Helvetica, sans-serif;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 7px;
+
+    }
+
+</style>
+</head>
+<body>
+  <div id="container">
+   
+       <div id = "header">
+      <h2>CRP 558x  </h2>
+      <h3>MINI PROJECT: POPULATION DISTRIBUTION OF UNITED STATES</h3>
+       </div>
+<nav id="leftsidecontainer">
+
+<div id="leftsidecontainer1">
+    <div id="head1">
+    <h4> <strong> US Population Distribution <br>
+                   (Based on Race and Ethnicity)<br> </strong>
+   
+      </h4>
+    
+       <div class="btn-group-vertical">
+         <div class="btn-group">
+             <br>
+             <button type="button" id="white" class="btn btn-primary btn-lg active"> White </button>
+             <button type="button" id="black" class="btn btn-primary btn-lg"> Black</button> 
+             <button type="button" id="hispanic" class="btn btn-primary btn-lg"> Hispanic</button> 
+             <button type="button" id="asian" class="btn btn-primary btn-lg"> Asian</button> 
+             <button type="button" id="americanIndian" class="btn btn-primary btn-lg">American Indian/Alaska Native</button> 
+             <button type="button" id="nativeHawaiian" class="btn btn-primary btn-lg"> Native Hawaiian </button> 
+             <button type="button" id="moreRaces" class="btn btn-primary btn-lg"> Two Or More Races </button> <br> <br>
+          </div>
+      </div>
+    <div id="leftsidecontainer2">
+    <div id="head2">
+    <h4> <strong> Most and Least Populous City in US <br>
+                    </strong>
+
+    </h4> <br>
+    
+    <div class="btn-group-vertical">
+         <div class="btn-group">
+             <br>
+             <button type="button" id="most" class="btn btn-info btn-lg active">&nbsp&nbsp Most Populus State of US &nbsp&nbsp&nbsp </button>
+             <button type="button" id="Least" class="btn btn-info btn-lg">&nbsp&nbsp&nbsp&nbsp Least Populus State of US &nbsp&nbsp&nbsp&nbsp</button>
+
+  </div>
+          </div>
+
+      <div id="text" class="text1"> The magic of America is that we're a free and open society with a mixed population. Part of our security is our freedom.(Madeleine Albright) 
+      </div>
+
+</nav>
+<div id="map"> </div>
+
+<div id = "footer">
+   <h4> Shoaib Mahmud, Department of Community and     Regional Planning, ISU </h4>
+</div>
+</div>
+
+<script id="jsbin-javascript">
+ $(document).ready(function() {
+
+ //basemap
+var Hydda_Base = L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/base/{z}/{x}/{y}.png', {
+	maxZoom: 18,
+	attribution: 'Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+    var Esri_NatGeoWorldMap =
+        L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+          attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
+          maxZoom: 16
+    });
+
+  var OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+
+
+//map
+var map = L.map('map', {
+    		center: new L.LatLng(41.8780, -93.4507),
+    		zoom: 4,
+    		layers: [OpenStreetMap]
+		});
+var baseMaps = {
+  "Topgraphy Map": Esri_NatGeoWorldMap,
+	"Open Street Map": OpenStreetMap,
+  "Sea Map":Hydda_Base,
+};
+
+L.control.layers(baseMaps).addTo(map);
+//White People
+
+
+//get color
+function getColor1(d) {
+    return d <= '247600' ? '#ccece6' :
+    d <= '1647200' ? "#99d8c9" :
+   d <= '3735000' ? "#41ae76" :
+    d <='6153900' ? "#238b45" :
+   d <= '15175500' ? "#005824" :
+    "#0e230e";
+}
+
+
+function style2(feature) {
+    return {
+        fillColor: getColor1(feature.properties.White),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.8
+    };
+}
+
+
+//geojson
+link="https://shoaibmahmud.github.io/CRP558x/state2.json";
+
+
+
+var white = new L.GeoJSON.AJAX(link , {
+	style: style2,
+  onEachFeature: function (feature, layer) {
+        htmlText = "<strong>" + feature.properties.NAME+ "</strong><br><strong> Total Population : </strong>"  + feature.properties.Total + "<br><strong>Total Number ofWhite People : </strong>"+feature.properties.White+"<strong><br> Percentage of White People : </strong>"+feature.properties.White_Perc+"%";
+        layer.bindPopup(htmlText);
+    layer.bindTooltip(feature.properties.NAME);
+    }
+});
+
+var legend1 = L.control({
+  position: 'bottomleft'
+});
+
+legend1.onAdd = function(map) {
+
+  var div = L.DomUtil.create('div', 'info legend'),
+    pop_size = [247600,3735000, 6153900,15175500],
+    labels = ['0-247601','247601-3735000', '3735001-6153900', '6153901- 15175500'];
+
+
+   div.innerHTML += "<strong> Population Size</strong><br> <br>";
+
+  for (var i = 0; i < pop_size.length; i++) {
+    div.innerHTML +=
+      '<i style="background:' + getColor1(pop_size[i] ) + ' "></i> ' +
+       labels[i]+'<br><br>';
+  }
+
+  return div;
+};
+
+
+
+//Black People
+
+function getColor2(d) {
+    return d <= '5400' ? '#bfd3e6' :
+    d <= '681400' ? "#9ebcda" :
+   d <= '1471500' ? "#8c96c6" :
+    d <='1582500' ? "#8c6bb1" :
+   d <= '3198600' ? "#88419d" :
+    "#6e016b";
+}
+
+
+function style3(feature) {
+    return {
+       fillColor: getColor2(feature.properties.Black),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.8
+    };
+}
+
+//geojson
+link="https://shoaibmahmud.github.io/CRP558x/state2.json";
+
+
+var black = new L.GeoJSON.AJAX(link , {
+	style: style3,
+  onEachFeature: function (feature, layer) {
+        htmlText = "<strong>" + feature.properties.NAME+ "</strong><br><strong> Total Population : </strong>"  + feature.properties.Total + "<br><strong>Total Number of Black People : </strong>"+feature.properties.Black+"<strong><br> Percentage of Black People : </strong>"+feature.properties.Black_Perc+"%";
+        layer.bindPopup(htmlText);
+    layer.bindTooltip(feature.properties.NAME);
+    }
+});
+
+
+var legend2 = L.control({
+  position: 'bottomleft'
+});
+
+legend2.onAdd = function(map) {
+
+  var div = L.DomUtil.create('div', 'info legend'),
+    pop_size = [681400,1471500, 2095200,3198601],
+    labels = ['0-681400','681401-1471500', '1471501-1582500', '2095200- 3198601'];
+
+
+   div.innerHTML += "<strong> Population Size</strong><br> <br>";
+
+  for (var i = 0; i < pop_size.length; i++) {
+    div.innerHTML +=
+      '<i style="background:' + getColor2(pop_size[i] ) + ' "></i> ' +
+       labels[i]+'<br><br>';
+  }
+
+  return div;
+};
+//Hispanic People
+
+function getColor3(d) {
+    return d <= '247600' ? '#fee8c8' :
+    d <= '1647200' ? "#fdbb84" :
+   d <= '3735000' ? "#fc8d59" :
+    d <='6153900' ? "#ef6548" :
+   d <= '15175500' ? "#d7301f" :
+    "#990000";
+}
+
+
+function style4(feature) {
+    return {
+       fillColor: getColor3(feature.properties.Hispanic),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.8
+    };
+}
+
+//geojson
+link="https://shoaibmahmud.github.io/CRP558x/state2.json";
+
+
+var hispanic= new L.GeoJSON.AJAX(link , {
+	style: style4,
+  onEachFeature: function (feature, layer) {
+        htmlText = "<strong>" + feature.properties.NAME+ "</strong><br><strong> Total Population : </strong>"  + feature.properties.Total + "<br><strong>Total Number of Hispanic People : </strong>"+feature.properties.Hispanic+"<strong><br> Percentage of Hispanic People : </strong>"+feature.properties.Hispanic_Perc+"%";
+        layer.bindPopup(htmlText);
+    layer.bindTooltip(feature.properties.NAME);
+    }
+});
+
+
+var legend3 = L.control({
+  position: 'bottomleft'
+});
+
+legend3.onAdd = function(map) {
+
+  var div = L.DomUtil.create('div', 'info legend'),
+    pop_size = [247600,1647200, 6153900,15175500],
+    labels = ['0-247600','247601-1647200', '1647201-6153900', '6153901- 15175500'];
+
+
+   div.innerHTML += "<strong> Population Size</strong><br> <br>";
+
+  for (var i = 0; i < pop_size.length; i++) {
+    div.innerHTML +=
+      '<i style="background:' + getColor3(pop_size[i] ) + ' "></i> ' +
+       labels[i]+'<br><br>';
+  }
+
+  return div;
+};
+
+//AsianPeople
+
+function getColor4(d) {
+    return d <= '3100' ? '#ece7f2' :
+    d <= '250700' ? "#d0d1e6" :
+   d <= '549500' ? "#a6bddb" :
+    d <='940900' ? "#3690c0" :
+   d <= '5773700' ? "#0570b0" :
+    "#034e7b";
+}
+
+
+function style5(feature) {
+    return {
+       fillColor: getColor4(feature.properties.Asian),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.8
+    };
+}
+
+//geojson
+link="https://shoaibmahmud.github.io/CRP558x/state2.json";
+
+
+var asian= new L.GeoJSON.AJAX(link , {
+	style: style5,
+  onEachFeature: function (feature, layer) {
+        htmlText = "<strong>" + feature.properties.NAME+ "</strong><br><strong> Total Population : </strong>"  + feature.properties.Total + "<br><strong>Total Number of Asian People : </strong>"+feature.properties.Asian+"<strong><br> Percentage of Asian People : </strong>"+feature.properties.Asian_Perc+"%";
+        layer.bindPopup(htmlText);
+    layer.bindTooltip(feature.properties.NAME);
+    }
+});
+
+
+var legend4 = L.control({
+  position: 'bottomleft'
+});
+
+legend4.onAdd = function(map) {
+
+  var div = L.DomUtil.create('div', 'info legend'),
+    pop_size = [3100,250700, 940900,5773700],
+    labels = ['0-3100','250700-549500', '549501-940900', '940901- 5773700'];
+
+
+   div.innerHTML += "<strong> Population Size</strong><br> <br>";
+
+  for (var i = 0; i < pop_size.length; i++) {
+    div.innerHTML +=
+      '<i style="background:' + getColor4(pop_size[i] ) + ' "></i> ' +
+       labels[i]+'<br><br>';
+  }
+
+  return div;
+};
+
+//americanIndian
+
+function getColor5(d) {
+    return d <= '15800' ? '#fff7bc' :
+    d <= '37300' ? "#fee391" :
+   d <= '55200' ? "#fe9929" :
+    d <='113800' ? "#ec7014" :
+   d <= '352400' ? "#8c2d04" :
+    "#ffffe5";
+}
+
+
+function style6(feature) {
+    return {
+       fillColor: getColor5(feature.properties.American_1),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.8
+    };
+}
+
+//geojson
+link="https://shoaibmahmud.github.io/CRP558x/state2.json";
+
+
+var americanIndian= new L.GeoJSON.AJAX(link , {
+	style: style6,
+  onEachFeature: function (feature, layer) {
+        htmlText = "<strong>" + feature.properties.NAME+ "</strong><br><strong> Total Population : </strong>"  + feature.properties.Total + "<br><strong>Total Number of American Indian People : </strong>"+feature.properties.American_1+"<strong><br> Percentage of American Indian People : </strong>"+feature.properties.American_1_Perc+"%";
+        layer.bindPopup(htmlText);
+    layer.bindTooltip(feature.properties.NAME);
+    }
+});
+
+
+var legend5 = L.control({
+  position: 'bottomleft'
+});
+
+legend5.onAdd = function(map) {
+
+  var div = L.DomUtil.create('div', 'info legend'),
+    pop_size = [15800,55200, 113800,352400],
+    labels = ['15800-37300','37301-55200', '55201-113800', '113801- 113801'];
+
+
+   div.innerHTML += "<strong> Population Size</strong><br> <br>";
+
+  for (var i = 0; i < pop_size.length; i++) {
+    div.innerHTML +=
+      '<i style="background:' + getColor5(pop_size[i] ) + ' "></i> ' +
+       labels[i]+'<br><br>';
+  }
+
+  return div;
+};
+
+//Native Hawaiian
+
+function getColor6(d) {
+    return d <= '0' ? '#f0f0f0' :
+    d <= '2500' ? "#bdbdbd" :
+   d <= '7500' ? "#737373" :
+    d <='188800' ? "#525252" :
+   d <= '229000' ? "#252525" :
+    "#ffffff";
+}
+
+
+function style7(feature) {
+    return {
+       fillColor: getColor6(feature.properties.Native_H_1),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.8
+    };
+}
+
+//geojson
+link="https://shoaibmahmud.github.io/CRP558x/state2.json";
+
+
+var nativeHawaiian= new L.GeoJSON.AJAX(link , {
+	style: style7,
+  onEachFeature: function (feature, layer) {
+        htmlText = "<strong>" + feature.properties.NAME+ "</strong><br><strong> Total Population : </strong>"  + feature.properties.Total + "<br><strong>Total Number of Native Hawaiian People : </strong>"+feature.properties.Native_H_1+"<strong><br> Percentage of Native Hawaiian People : </strong>"+feature.properties.Native_Haw+"%";
+        layer.bindPopup(htmlText);
+    layer.bindTooltip(feature.properties.NAME);
+    }
+});
+
+
+var legend6 = L.control({
+  position: 'bottomleft'
+});
+
+legend6.onAdd = function(map) {
+
+  var div = L.DomUtil.create('div', 'info legend'),
+    pop_size = [0,2500, 188800,229000],
+    labels = ['0-2500','2501-188800', '188801-113800', '113801- 229000'];
+
+
+   div.innerHTML += "<strong> Population Size</strong><br> <br>";
+
+  for (var i = 0; i < pop_size.length; i++) {
+    div.innerHTML +=
+      '<i style="background:' + getColor6(pop_size[i] ) + ' "></i> ' +
+       labels[i]+'<br><br>';
+  }
+
+  return div;
+};
+//Two or more races
+
+function getColor7(d) {
+    return d <= '10600' ? '#e7e1ef' :
+    d <= '56000' ? "#c994c7" :
+   d <= '131200' ? "#df65b0" :
+    d <='225100' ? "#ce1256" :
+   d <= '778300' ? "#91003f" :
+    "#f7f4f9";
+}
+
+
+function style8(feature) {
+    return {
+       fillColor: getColor7(feature.properties.Two_Or_M_1),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.8
+    };
+}
+
+//geojson
+link="https://shoaibmahmud.github.io/CRP558x/state2.json";
+
+
+var moreRaces= new L.GeoJSON.AJAX(link , {
+	style: style8,
+  onEachFeature: function (feature, layer) {
+        htmlText = "<strong>" + feature.properties.NAME+ "</strong><br><strong> Total Population : </strong>"  + feature.properties.Total + "<br><strong>Total Number of People of two or more races : </strong>"+feature.properties.Two_Or_M_1+"<strong><br> Percentage of People of two or more races : </strong>"+feature.properties.Two_Or_Mor+"%";
+        layer.bindPopup(htmlText);
+    layer.bindTooltip(feature.properties.NAME);
+    }
+});
+
+
+var legend7 = L.control({
+  position: 'bottomleft'
+});
+
+legend7.onAdd = function(map) {
+
+  var div = L.DomUtil.create('div', 'info legend'),
+    pop_size = [56000,131200, 225100,778300],
+    labels = ['10600-56000','56001-131200', '131201-225100', '225101- 778300'];
+
+
+   div.innerHTML += "<strong> Population Size</strong><br> <br>";
+
+  for (var i = 0; i < pop_size.length; i++) {
+    div.innerHTML +=
+      '<i style="background:' + getColor7(pop_size[i] ) + ' "></i> ' +
+       labels[i]+'<br><br>';
+  }
+
+  return div;
+};
+$("#white").click(function() {
+        map.removeLayer(black);
+        map.removeLayer(hispanic);
+        map.addLayer(white);
+        map.removeLayer(asian);
+        map.removeLayer(nativeHawaiian);
+        map.removeLayer(americanIndian);
+         map.removeLayer(moreRaces);
+        $("div button").removeClass("active");
+        $(this).addClass("active");
+        map.addControl(legend1);
+        map.removeControl(legend2);
+        map.removeControl(legend3);
+        map.removeControl(legend4);
+        map.removeControl(legend5);
+        map.removeControl(legend6);
+         map.removeControl(legend7);
+
+      });
+  $("#black").click(function() {
+        map.removeLayer(white);
+        map.removeLayer(hispanic);
+        map.addLayer(black);
+        map.removeLayer(asian);
+       map.removeLayer(nativeHawaiian);
+        map.removeLayer(americanIndian);
+        map.removeLayer(moreRaces);
+        $("div button").removeClass("active");
+        $(this).addClass("active");
+        map.addControl(legend2);
+        map.removeControl(legend1);
+        map.removeControl(legend3);
+        map.removeControl(legend4);
+        map.removeControl(legend5);
+        map.removeControl(legend6);
+        map.removeControl(legend7);
+      });
+    $("#hispanic").click(function() {
+        map.removeLayer(white);
+        map.removeLayer(black);
+        map.removeLayer(asian);
+        map.addLayer(hispanic);
+        map.removeLayer(nativeHawaiian);
+        map.removeLayer(americanIndian);
+        map.removeLayer(moreRaces);
+        $("div button").removeClass("active");
+        $(this).addClass("active");
+        map.addControl(legend3);
+        map.removeControl(legend2);
+        map.removeControl(legend1);
+        map.removeControl(legend4);
+        map.removeControl(legend5);
+        map.removeControl(legend6);
+         map.removeControl(legend7);
+      });
+ 
+    $("#asian").click(function() {
+        map.removeLayer(white);
+        map.removeLayer(black);
+        map.removeLayer(hispanic);
+        map.addLayer(asian);
+        map.removeLayer(nativeHawaiian);
+         map.removeLayer(moreRaces);
+        map.removeLayer(americanIndian);
+        $("div button").removeClass("active");
+        $(this).addClass("active");
+        map.addControl(legend4);
+        map.removeControl(legend2);
+        map.removeControl(legend1);
+        map.removeControl(legend3);
+        map.removeControl(legend5);
+        map.removeControl(legend6);
+         map.removeControl(legend7);
+
+      });
+   $("#americanIndian").click(function() {
+        map.removeLayer(white);
+        map.removeLayer(black);
+        map.removeLayer(hispanic);
+        map.removeLayer(asian);
+        map.removeLayer(nativeHawaiian);
+         map.removeLayer(moreRaces);
+        map.addLayer(americanIndian);
+        $("div button").removeClass("active");
+        $(this).addClass("active");
+        map.addControl(legend5);
+        map.removeControl(legend2);
+        map.removeControl(legend1);
+        map.removeControl(legend3);
+        map.removeControl(legend4);
+        map.removeControl(legend6);
+        map.removeControl(legend7);
+      });
+       $("#nativeHawaiian").click(function() {
+        map.removeLayer(white);
+        map.removeLayer(black);
+        map.removeLayer(hispanic);
+        map.removeLayer(asian);
+        map.removeLayer(americanIndian);
+        map.addLayer(nativeHawaiian);
+        map.removeLayer(moreRaces);
+        $("div button").removeClass("active");
+        $(this).addClass("active");
+        map.addControl(legend6);
+        map.removeControl(legend2);
+        map.removeControl(legend1);
+        map.removeControl(legend3);
+        map.removeControl(legend4);
+        map.removeControl(legend5);
+        map.removeControl(legend7);
+      });
+    $("#moreRaces").click(function() {
+        map.removeLayer(white);
+        map.removeLayer(black);
+        map.removeLayer(hispanic);
+        map.removeLayer(asian);
+        map.removeLayer(americanIndian);
+        map.removeLayer(nativeHawaiian);
+        map.addLayer(moreRaces);
+        $("div button").removeClass("active");
+        $(this).addClass("active");
+        map.addControl(legend7);
+        map.removeControl(legend2);
+        map.removeControl(legend1);
+        map.removeControl(legend3);
+        map.removeControl(legend4);
+        map.removeControl(legend5);
+        map.removeControl(legend6);
+      });
+ var NewYork= L.marker([41, -73]).bindPopup('<a href="https://en.wikipedia.org/wiki/New_York"> New York </a>').addTo(map);
+	Wyoming=L.marker([43,-106]).bindPopup('<a href="https://en.wikipedia.org/wiki/Wyoming"> The Wyoming</a>').addTo(map);
+
+
+    $('#most').click(function () {
+        map.setView([41, -73], 6.5);
+    });
+
+    $('#Least').click(function () {
+        map.setView([43,-106], 6.5);
+    });
+
+ });
+
+</script>
+</body>
+</html>
