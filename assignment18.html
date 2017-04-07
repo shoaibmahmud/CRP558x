@@ -224,7 +224,7 @@ var firstIcon = L.AwesomeMarkers.icon({
   icon: 'flash'
 });
 
-var favouritePlacesIcon = L.AwesomeMarkers.icon({
+var favouriteplacesIcon = L.AwesomeMarkers.icon({
   prefix: 'fa', 
   markerColor: 'yellow',
   spin : 'true' ,
@@ -260,7 +260,7 @@ var geojsonLayer1b = L.geoJSON(locations, {
 });
 
 function getIcon(d) {
-  return d == 'Places' ?favouritePlacesIcon :
+  return d == 'Places' ?favouriteplacesIcon :
     d == 'Restaurants' ? restaurantsIcon :
     d == 'Parks' ? parksIcon :
     firstIcon;
