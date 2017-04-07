@@ -87,7 +87,7 @@ Released under the MIT license: http://jsbin.mit-license.org
   <form>
     <div class="form-group">
       <label for="Category">&nbsp;&nbsp;&nbsp;Category:</label>
-      <input type="Category" class="form-control" id="field1" placeholder="Favourite Places, Restaurants , Parks">
+      <input type="Category" class="form-control" id="field1" placeholder="Places, Restaurants , Parks">
     </div>
     <div class="form-group">
       <label for="Title">&nbsp;&nbsp;&nbsp;Title:</label>
@@ -117,7 +117,7 @@ var userID = 'smahmud';
 
 //get the existing data from the server by adding the following in the <head>
 
-//or you can use the URL below and the leaflet ajax plugin
+
 
 var responseURL = "https://indicator.extension.iastate.edu/z_cjs/teachingGIS/webGIS_17/studentFeaturesDB.php?userID=" + userID + "&theFunction=response";
 
@@ -178,11 +178,7 @@ function addMarker(e) {
 
 }
 
-
-
-
-
-//Load existing points as circles from var locations. This is initially loaded in a <head><script>
+//Load existing points as circles from var locations. 
 var geojsonLayer1 = L.geoJSON(locations, {
   pointToLayer: function(feature, latlng) {
     return L.circleMarker(latlng, {
@@ -230,7 +226,7 @@ var firstIcon = L.AwesomeMarkers.icon({
 });
 
 var favouritePlacesIcon = L.AwesomeMarkers.icon({
-  prefix: 'fa', //font awesome rather than bootstrap
+  prefix: 'fa', 
   markerColor: 'yellow',
   spin : 'true' ,
   icon: 'snowflake-o'
@@ -264,12 +260,8 @@ var geojsonLayer1b = L.geoJSON(locations, {
   }
 });
 
-
-
-
-
 function getIcon(d) {
-  return d == 'Favourite Places' ?favouritePlacesIcon :
+  return d == ' Places' ?favouritePlacesIcon :
     d == 'Restaurants' ? restaurantsIcon :
     d == 'Parks' ? parksIcon :
     firstIcon;
@@ -313,6 +305,7 @@ var baseMaps = {
 };
 
 var overlayMaps = {
+  "Iowa Border" : borders,
   "Loaded as variable": geojsonLayer1,
   "Loaded as variable & icons": geojsonLayer1b,
   "Loaded with plugin": geojsonLayer2,
