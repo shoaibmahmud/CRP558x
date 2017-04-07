@@ -221,7 +221,6 @@ var geojsonLayer2 = new L.GeoJSON.AJAX(responseURL, {
 var firstIcon = L.AwesomeMarkers.icon({
   prefix: 'fa', 
   markerColor: 'white', // see colors above
-  iconColor: 'red',
   icon: 'flash'
 });
 
@@ -229,7 +228,7 @@ var favouritePlacesIcon = L.AwesomeMarkers.icon({
   prefix: 'fa', 
   markerColor: 'yellow',
   spin : 'true' ,
-  icon: 'snowflake-o'
+  icon: 'arrows'
 });
 
 var restaurantsIcon = L.AwesomeMarkers.icon({
@@ -261,7 +260,7 @@ var geojsonLayer1b = L.geoJSON(locations, {
 });
 
 function getIcon(d) {
-  return d == ' Places' ?favouritePlacesIcon :
+  return d == 'Places' ?favouritePlacesIcon :
     d == 'Restaurants' ? restaurantsIcon :
     d == 'Parks' ? parksIcon :
     firstIcon;
