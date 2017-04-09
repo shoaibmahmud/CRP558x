@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by shoaibmahmud (http://jsbin.com/hefole/2/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+  <title>Assignment19</title>
+<style id="jsbin-css">
+#map {
+
+     position:relative;
+     width: 1000px;
+     height: 400px;
+    /* background-color: red;*/
+
+}
+#container {
+	background-color: white;
+	width: 1000px;
+	margin-right: auto;
+	margin-left: auto;
+   border-style: solid;
+   border-width: 5px;
+}
+#header, #footer {
+	clear: both;
+	padding: 10px;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+</style>
+</head>
+<body>
+<div id="container">
+      <div id = "header">
+           <h2>CRP 558x  </h2>
+           <h3> Assignment 19: Geolocating</h3>
+      </div>
+   
+      <div>
+	        <button onclick="getLocation()">Get location</button>
+
+	        <div id = "myLocation">my location is not set</div>
+     </div>
+     <div id='map'></div>
+
+  <div id = "footer">
+    Shoaib Mahmud, Department of Community and     Regional Planning, ISU
+  </div>
+</div>
+
+<script id="jsbin-javascript">
+// adding a map
+
+var map = L.map('map').setView([42.04, -93.64], 12);
+
+// adding an OpenStreetMap tile layer
+var OpenStreetMap_Mapnik = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+
+// code for geolocation
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        $("#myLocation").html("Geolocation is not supported by this browser.");
+    }
+}
+
+function showPosition(position) {
+	 $("#myLocation").html("Latitude: " + position.coords.latitude + 
+    "<br>Longitude: " + position.coords.longitude);
+  // code for marker
+    L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
+}
+
+
+
+
+</script>
+</body>
+</html>
