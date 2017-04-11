@@ -90,7 +90,7 @@ function showPosition(position) {
 	 $("#myLocation").html("Latitude: " + position.coords.latitude + 
     "<br>Longitude: " + position.coords.longitude);
   // code for marker
-    L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
+   var marker= L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
     marker.bindPopup("Latitude: " + position.coords.latitude + 
     "<br>Longitude: " + position.coords.longitude).openPopup();
 }
