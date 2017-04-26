@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by anonymous (http://jsbin.com/kujiqusica/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+  <head>
+<meta name="description" content="Ames Map" />
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" /> <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+	  
+  
+<style id="jsbin-css">
+#map {
+     position:relative;
+     width: 1000px;
+     height: 400px;
+    /* background-color: red;*/
+}
+#container {
+	background-color: white;
+	width: 1000px;
+	margin-right: auto;
+	margin-left: auto;
+   border-style: solid;
+   border-width: 5px;
+}
+#header, #footer {
+	clear: both;
+	padding: 10px;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+</style>
+</head>
+ <div id="container">
+   <div id = "header">
+    <h2>CRP 558x  </h2>
+    <h3>Assignment 23: Incorporating non-georeferenced raster maps into MapBox</h3>
+   </div>
+
+     <div id='map'></div>
+
+  <div id = "footer">
+    Shoaib Mahmud, Department of Community and     Regional Planning, ISU
+  </div>
+</div>
+</html>
+
+<script>
+console.clear();
+
+var map = L.map('map').setView([42.03, -93.63], 12);
+
+// add an OpenStreetMap tile layer
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+  maxZoom: 18
+}).addTo(map);
+
+
+L.tileLayer('http://mapwarper.net/maps/tile/20271/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+  maxZoom: 18
+}).addTo(map);
+</script>
+<script src="https://static.jsbin.com/js/render/edit.js?3.41.10"></script>
+<script>jsbinShowEdit && jsbinShowEdit({"static":"https://static.jsbin.com","root":"https://jsbin.com"});</script>
+<script src="https://static.jsbin.com/js/vendor/eventsource.js?3.41.10"></script>
+<script src="https://static.jsbin.com/js/spike.js?3.41.10"></script>
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1656750-34', 'auto');
+ga('require', 'linkid', 'linkid.js');
+ga('require', 'displayfeatures');
+ga('send', 'pageview');
+
+</script>
