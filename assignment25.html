@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by anonymous (http://jsbin.com/mesarujoga/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="description" content="[Get started with MapView - Create a 2D map - 4.3]">
+  <!--
+  ArcGIS API for JavaScript, https://js.arcgis.com
+  For more information about the get-started-mapview sample, read the original sample description at developers.arcgis.com.
+  https://developers.arcgis.com/javascript/latest/get-started-mapview/index.html
+  -->
+<title>Get started with MapView - Create a 2D map - 4.3</title>
+ 
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.3/esri/css/main.css">
+  <script src="https://js.arcgis.com/4.3/"></script>
+
+  
+
+<style id="jsbin-css">
+
+
+#viewDiv  {
+     position:relative;
+     width: 1000px;
+     height: 400px;
+    /* background-color: red;*/
+}
+#container {
+	background-color: white;
+	width: 1000px;
+	margin-right: auto;
+	margin-left: auto;
+   border-style: solid;
+   border-width: 5px;
+}
+#header, #footer  {
+	clear: both;
+	padding: 10px;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+#shoaib {
+	clear: both;
+	padding: 10px;
+	background-color: green;
+	color: white;
+	text-align: center;
+}
+</style>
+</head>
+
+<body>
+  <div id="container">
+   <div id = "header">
+    <h2>CRP 558x  </h2>
+    <h3>Assignment 25: Introduction to ArcGIS JavaScript API</h3>
+   </div>
+
+     <div id='viewDiv'></div>
+    <div id="shoaib"> 1. The center,basemap and zoom level is changed <br>
+          2. An extra street layer ( transportlayer) is added</div>
+
+  <div id = "footer">
+    Shoaib Mahmud, Department of Community and     Regional Planning, ISU
+  </div>
+</div>
+<script>
+require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/views/SceneView",
+     "esri/layers/TileLayer",
+     "dojo/dom",
+     "dojo/on",
+    "dojo/domReady!"
+    ], function(Map, MapView ,SceneView, TileLayer, dom, on) {
+
+      var map = new Map({
+        basemap: "oceans"
+      });
+      
+     
+
+      var view = new MapView({
+        container: "viewDiv",
+        map: map,
+        zoom: 4,
+        center: [-93, 43]
+      });
+      
+      var transportationLyr = new TileLayer({
+          url: "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer",
+          // This property can be used to uniquely identify the layer
+          id: "streets",
+          visible: true
+        });
+      
+        map.add(transportationLyr);
+      
+      
+    });
+</script>
+<script src="https://static.jsbin.com/js/render/edit.js?3.41.10"></script>
+<script>jsbinShowEdit && jsbinShowEdit({"static":"https://static.jsbin.com","root":"https://jsbin.com"});</script>
+<script src="https://static.jsbin.com/js/vendor/eventsource.js?3.41.10"></script>
+<script src="https://static.jsbin.com/js/spike.js?3.41.10"></script>
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1656750-34', 'auto');
+ga('require', 'linkid', 'linkid.js');
+ga('require', 'displayfeatures');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>
